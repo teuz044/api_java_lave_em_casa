@@ -5,6 +5,7 @@
     import org.springframework.data.jpa.repository.JpaRepository;
     import org.springframework.data.jpa.repository.Query;
     import org.springframework.data.repository.query.Param;
+    import org.springframework.security.core.userdetails.UserDetails;
     import org.springframework.stereotype.Repository;
 
     import java.util.List;
@@ -15,5 +16,5 @@
         @Query(nativeQuery = true, value = "SELECT * FROM usuarios_proprietario WHERE cpf = :cpf")
         public abstract List<UsuariosProprietarios> getProprietarioPorCpf(@Param("cpf") String cpf);
 
-        UsuariosProprietarios findByCpf(String cpf);
+        UserDetails findByCpf(String cpf);
     }

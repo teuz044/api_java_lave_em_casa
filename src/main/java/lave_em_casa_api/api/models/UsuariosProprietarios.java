@@ -1,8 +1,7 @@
 package lave_em_casa_api.api.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,45 +12,39 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
 @Table(name = "usuarios_proprietarios")
+@Entity(name = "usuarios_proprietarios")
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class UsuariosProprietarios implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String cpf;
 
-    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     private String email;
 
-    @Column(name = "data_nascimento_proprietario", nullable = false)
+    @Column(name = "data_nascimento_proprietario")
     private Date dataNascimentoProprietario;
 
-    @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
     private String telefone;
 
-    @Column(nullable = false)
     private String endereco;
 
-    @Column(nullable = false)
     private String cep;
 
-    @Column(nullable = false)
     private Double rendaTotal;
 
-    @Column(nullable = false)
     private Double pesoSuportadoMaquina;
 
-    @Column(nullable = false)
     private Integer quantidadeMaquinas;
 
     @OneToMany(mappedBy = "proprietario")
@@ -59,10 +52,20 @@ public class UsuariosProprietarios implements UserDetails {
 
     @Column(name = "quantidade_anuncios")
     private Integer quantidadeAnuncios;
+    @Column(name = "roles")
+    @Enumerated(EnumType.STRING)
+    private UserRole roles;
+
+    public UsuariosProprietarios(String login, String password, UserRole role){
+        this.cpf = login;
+        this.senha = password;
+        this.roles = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if(this.roles == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

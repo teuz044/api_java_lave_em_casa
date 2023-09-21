@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class AuthService implements UserDetailsService {
+@Service
+public class AuthorizationService implements UserDetailsService {
 
     @Autowired
-    private ProprietariosRepository proprietariosRepository;
-
+    ProprietariosRepository repository;
     @Override
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException {
-        return proprietariosRepository.findByCpf(username);
+    public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
+        return repository.findByCpf(cpf);
     }
 }
