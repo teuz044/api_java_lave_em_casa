@@ -13,8 +13,8 @@
 
     @Repository
     public interface ProprietariosRepository extends JpaRepository<UsuariosProprietarios, Integer> {
-        @Query(nativeQuery = true, value = "SELECT * FROM usuarios_proprietario WHERE cpf = :cpf")
-        public abstract List<UsuariosProprietarios> getProprietarioPorCpf(@Param("cpf") String cpf);
+        @Query(nativeQuery = true, value = "SELECT * FROM usuarios_proprietarios WHERE cpf = :cpf")
+        public abstract UsuariosProprietarios getProprietarioPorCpf(@Param("cpf") String cpf);
 
         UserDetails findByCpf(String cpf);
     }

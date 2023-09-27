@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/proprietarios/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/proprietarios/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/product").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/anuncios/{cidade}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

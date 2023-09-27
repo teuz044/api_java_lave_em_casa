@@ -20,7 +20,7 @@ public class ProprietarioService {
         return proprietariosRepository.save(proprietario);
     }
 
-    public List<UsuariosProprietarios> getProprietariosCpf(String cpf) {
+    public UsuariosProprietarios getProprietariosCpf(String cpf) {
         return proprietariosRepository.getProprietarioPorCpf(cpf);
     }
 
