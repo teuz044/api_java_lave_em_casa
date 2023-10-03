@@ -67,19 +67,19 @@ public class ProprietarioController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid Login data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        UsuariosProprietarios usuarioLogado =  proprietarioService.getProprietariosCpf(data.login());
-        var token = tokenService.generateToken((UsuariosProprietarios) auth.getPrincipal());
+        @PostMapping("/login")
+        public ResponseEntity login(@RequestBody @Valid Login data) {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            UsuariosProprietarios usuarioLogado =  proprietarioService.getProprietariosCpf(data.login());
+            var token = tokenService.generateToken((UsuariosProprietarios) auth.getPrincipal());
 
-        if (token.isEmpty() || usuarioLogado == null) {
-            return ResponseEntity.badRequest().build();
+            if (token.isEmpty() || usuarioLogado == null) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            // Retorne os dados do usuário e o token na resposta
+            LoginResponseDTO responseDTO = new LoginResponseDTO(token, usuarioLogado);
+            return ResponseEntity.ok(responseDTO);
         }
-
-        // Retorne os dados do usuário e o token na resposta
-        LoginResponseDTO responseDTO = new LoginResponseDTO(token, usuarioLogado);
-        return ResponseEntity.ok(responseDTO);
-    }
 }
